@@ -101,6 +101,16 @@ func (e *DefaultEffector) MergeEffects(expr string, effects []Effect, matches []
 				break
 			}
 		}
+	case constant.AllAllowEffect:
+		if matches[policyIndex] != 0 && effects[policyIndex] == Allow {
+			if policyIndex == policyLength-1 {
+				result = Allow
+			}
+		} else {
+			result = Deny
+			explainIndex = policyIndex
+			break
+		}
 	default:
 		return Deny, -1, errors.New("unsupported effect")
 	}
